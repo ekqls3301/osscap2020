@@ -39,7 +39,7 @@ def run():
         "http://ncov.mohw.go.kr/bdBoardList_Real.do?brdId=1&brdGubun=13&ncvContSeq=&contSeq=&board_id=&gubun=")
     confirmed_region = parse_data(data, updated)
     # print(confirmed_region)
-    save_dir = 'koreaData(All).js'
+    save_dir = 'koreaData(All).js'  #저장될 파일명(js파일)
     crawler_name = 'crawlKoreaData(All).py'
     var_name = 'koreaData(All)'
 
