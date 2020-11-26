@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from utils import write_data
-
+from datetime import date, timedelta
 
 def get_data(url):
     html = requests.get(url).text
@@ -20,7 +20,6 @@ def parse_data(data, updated):
         region = d.find_all('h4', class_='cityname')[0].text  # 지역이름
         confirmed = d.find_all('span', class_='num')[0].text
         temp = d.find_all('span', class_='num')
-        print(region)
         confirmed, _ ,recovered, deaths, confirmed_rate = [
             element.text.replace(',', '') for element in temp]
         confirmed = int(confirmed)
@@ -34,14 +33,20 @@ def parse_data(data, updated):
 
     return confirmed_region
 
+today = date.today()
+yesterday = date.today() - timedelta(1)
+a = str(today)
+b = str(yesterday)
+
+
 def run():
     data, updated = get_data(
         "http://ncov.mohw.go.kr/bdBoardList_Real.do?brdId=1&brdGubun=13&ncvContSeq=&contSeq=&board_id=&gubun=")
     confirmed_region = parse_data(data, updated)
     # print(confirmed_region)
-    save_dir = 'koreaData(All).js'
-    crawler_name = 'crawlKoreaData(All).py'
-    var_name = 'koreaData(All)'
+    save_dir = 'koreaData_All_' + a + '.js'
+    crawler_name = 'crawlKoreaData_All.py'
+    var_name = 'koreaData_All'
 
     write_data(confirmed_region, save_dir, crawler_name, var_name)
 

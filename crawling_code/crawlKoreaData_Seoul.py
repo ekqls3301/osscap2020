@@ -1,8 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 from utils import write_data
+from datetime import date, timedelta
 
-import pandas as pd
 
 
 def get_data(url):
@@ -33,14 +33,23 @@ def parse_data(data, updated):
     return confirmed_seoul
 
 
+
+
+today = date.today()
+yesterday = date.today() - timedelta(1)
+a = str(today)
+b = str(yesterday)
+
+
+
 def run():
     data, updated = get_data(
         "https://www.seoul.go.kr/coronaV/coronaStatus.do")
     confirmed_region = parse_data(data, updated)
     # print(confirmed_region)
-    save_dir = 'koreaData(Seoul).js'
-    crawler_name = 'crawlKoreaData(Seoul).py'
-    var_name = 'koreaData(Seoul)'
+    save_dir = 'koreaData_Seoul_' + a + '.js'
+    crawler_name = 'crawlKoreaData_Seoul.py'
+    var_name = 'koreaData_Seoul'
 
     write_data(confirmed_region, save_dir, crawler_name, var_name)
 
