@@ -13,10 +13,10 @@ class RunText(SampleBase):
     def run(self):
         offscreen_canvas = self.matrix.CreateFrameCanvas()
         font = graphics.Font()
-        font.LoadFont("../../../fonts/NanumGothic-Regular.bdf")
+        font.LoadFont("../fonts/NanumGothic-Regular.bdf")
         textColor = graphics.Color(255, 255, 0)
         pos = offscreen_canvas.width
-        vpos = font.baseline + 1
+        vpos = font.baseline + 16
         my_text = self.my_text
 
         while True:
