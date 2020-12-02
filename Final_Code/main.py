@@ -13,12 +13,9 @@ today = date.today()
 oneday = datetime.timedelta(days=1)
 yesterday = today - oneday
 third = today - oneday - oneday
-four = today - oneday - oneday
 a = str(today)
 b = str(yesterday)
 c = str(third)
-d = str(four)
-
 
 
 def LED_init():
@@ -619,7 +616,7 @@ while(menu):
             for y in range(22):
                 if array_screen[x][y] == 1:
                     array_screen[x][y] += 6
-        ##b_yesterday_compare_data(js_file_b_yesterday, js_file_b_b_yesterday, search_region, compare_cmp, array_screen)
+       
         draw_matrix(array_screen);print()
         if search_region == '1':
             run_text = RunText()
