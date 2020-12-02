@@ -2,6 +2,9 @@
 
 ### <활용한 오픈소스>
 > 크롤링 : 
+https://github.com/LiveCoronaDetector/livecod/blob/92f8046f791070b13dbf58d4fe84fe9283841dd0/data/utils.py
+https://github.com/LiveCoronaDetector/livecod/blob/2cc78e01f9c243ec2b60f6857dd572075c1d9917/data/crawlKoreaNewsData.py
+https://github.com/LiveCoronaDetector/livecod/blob/55866d4234a5df43231a8f36e5fbadefc6093d74/data/crawlKoreaRegionalData.py
 
 > 스크롤링 led 출력 :         
 https://github.com/hzeller/rpi-rgb-led-matrix/tree/master/bindings/python/samples   
