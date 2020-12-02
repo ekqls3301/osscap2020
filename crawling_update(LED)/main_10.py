@@ -512,7 +512,6 @@ while(menu):
         js_file = 'koreaData_Gyeonggi'+ '_'+ a + '.js'
         js_file_yesterday = 'koreaData_Gyeonggi'+ '_'+ b + '.js'
         js_file_b_yesterday = 'koreaData_Gyeonggi'+ '_' + c + '.js'
-        js_file_b_b_yesterday = 'koreaData_Gyeonggi'+ '_' + d + '.js'
         search_region = input("지역을 입력하세요 (ex:수원): ")
         clear_array(array_screen)
         draw_matrix(array_screen);print()
