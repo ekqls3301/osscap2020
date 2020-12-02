@@ -7,16 +7,16 @@ import threading
 from datetime import date, timedelta
 import datetime
 from matrix import *
-from runtext import RunText
-
 
 today = date.today()
 oneday = datetime.timedelta(days=1)
 yesterday = today - oneday
 third = today - oneday - oneday
+four = today - oneday - oneday
 a = str(today)
 b = str(yesterday)
 c = str(third)
+d = str(four)
 
 
 
@@ -181,7 +181,7 @@ flower = [
     [0, 0, 0, 7, 0, 0, 0],
     [0, 0, 0, 2, 0, 0, 0],
     [0, 0, 0, 2, 0, 0, 0],
-    [2, 0, 0, 2, 0, 0, 2],
+    [0, 0, 0, 2, 0, 0, 0],
     [0, 2, 0, 2, 0, 2, 0],
     [0, 0, 2, 2, 2, 0, 0],
     [0, 0, 0, 2, 0, 0, 0],
@@ -389,16 +389,6 @@ def clear_array(array):
         for j in range(32):
             array[i][j] = 0
 
-def getdata(js_file):
-    with open (js_file,"r",encoding="utf-8") as f:
-        json_data = json.load(f)
-        text =''
-        for i in range(0,len(json_data)-1):
-            data_name = json_data[i]['지역이름']
-            data_num = json_data[i]['확진자수']
-            text = text + data_name + " : " + str(data_num) + "  "
-        return text
-  
 main_menu = 0
 menu = 1
 while(menu):
@@ -422,21 +412,25 @@ while(menu):
     # while > 뒤로가기 입력전까지 menu 반복시행
     while menu_choice == 1:  # 전국 확진자 수 검색
         js_file = 'koreaData_All'+ '_'+ a +'.js'
-        while(1):
-            search_region = input("scroll 기능 실행 시 1 입력 : ");
-            if search_region == '1':
-                run_text = RunText()
-                run_text.my_text = getdata(js_file)
-                run_text.process()
-            if search_region == '0': # 0을 입력하면 메뉴로 복귀
-                main_menu = 0
-                break
+        js_file_yesterday = 'koreaData_All'+ '_'+ b +'.js'
+        if search_region == '0': # 0을 입력하면 메뉴로 복귀
+            compare_cmp = []
+            y_compare_cmp = []
+            b_y_compare_cmp = []
+            main_menu = 0
+            clear_array(array_screen)
+            break
 
 
     while menu_choice == 2: # 서울 세부지역 확진자 수 검색
+        sum_today = 0
+        sum_yesterday = 0
+        sum_today_array = []
+        sum_yesterday_array = []
         js_file = 'koreaData_Seoul'+ '_' + a + '.js'
         js_file_yesterday = 'koreaData_Seoul'+ '_' + b + '.js'
         js_file_b_yesterday = 'koreaData_Seoul'+ '_' + c + '.js'
+        js_file_b_b_yesterday = 'koreaData_Seoul'+ '_' + d + '.js'
         search_region = input("지역을 입력하세요 (ex:종로구): ")
         clear_array(array_screen)
         draw_matrix(array_screen);print()
@@ -447,20 +441,28 @@ while(menu):
                 if array_screen[x][y] == 1:
                     array_screen[x][y] += 6
         today_compare_data(js_file, js_file_yesterday, search_region, compare_cmp, array_screen)
+
+        for i in range(0,len(compare_cmp)):
+            sum_today += compare_cmp[i]['전날비교']
+            sum_today_array.append(compare_cmp[i]['전날비교'])
+        avg_today = sum_today/len(compare_cmp)
+        max1 = (max(sum_today_array)+avg_today) / 2
+        min1 = (min(sum_today_array)+avg_today) / 2
+
         for i in range(0,len(compare_cmp)):
             if compare_cmp[i]['지역이름'] == search_region:
                 list = [int(i) for i in str(compare_cmp[i]['전날비교'])]
-                if compare_cmp[i]['전날비교'] >= 10:
+                if compare_cmp[i]['전날비교'] >= max1:
                     for x in range(5):
                         for y in range(22,32):
                             if array_screen[x][y] == 1:
                                 array_screen[x][y] += 3
-                if compare_cmp[i]['전날비교'] >= 5 and compare_cmp[i]['전날비교'] < 10:
+                if compare_cmp[i]['전날비교'] >= min1 and compare_cmp[i]['전날비교'] < max1:
                     for x in range(5):
                         for y in range(22,32):
                             if array_screen[x][y] == 1:
                                 array_screen[x][y] += 2
-                if compare_cmp[i]['전날비교'] >= 0 and compare_cmp[i]['전날비교'] < 5:
+                if compare_cmp[i]['전날비교'] >= 0 and compare_cmp[i]['전날비교'] < min1:
                     for x in range(5):
                         for y in range(22,32):
                             if array_screen[x][y] == 1:
@@ -472,20 +474,28 @@ while(menu):
                 if array_screen[x][y] == 1:
                     array_screen[x][y] += 5
         yesterday_compare_data(js_file_yesterday, js_file_b_yesterday, search_region, y_compare_cmp, array_screen)
+
+        for i in range(0,len(y_compare_cmp)):
+            sum_yesterday += y_compare_cmp[i]['전날비교']
+            sum_yesterday_array.append(y_compare_cmp[i]['전날비교'])
+        avg_yesterday = sum_yesterday/len(y_compare_cmp)
+        max2 = (max(sum_yesterday_array)+avg_yesterday) / 2
+        min2 = (min(sum_yesterday_array)+avg_yesterday) / 2
+
         for i in range(0,len(y_compare_cmp)):
             if y_compare_cmp[i]['지역이름'] == search_region:
                 list = [int(i) for i in str(y_compare_cmp[i]['전날비교'])]
-                if y_compare_cmp[i]['전날비교'] >= 10:
+                if y_compare_cmp[i]['전날비교'] >= max2:
                     for x in range(6,11):
                         for y in range(22,32):
                             if array_screen[x][y] == 1:
                                 array_screen[x][y] += 3
-                if y_compare_cmp[i]['전날비교'] >= 5 and y_compare_cmp[i]['전날비교'] < 10:
+                if y_compare_cmp[i]['전날비교'] >= min2 and y_compare_cmp[i]['전날비교'] < max2:
                     for x in range(6,11):
                         for y in range(22,32):
                             if array_screen[x][y] == 1:
                                 array_screen[x][y] += 2
-                if y_compare_cmp[i]['전날비교'] >= 0 and y_compare_cmp[i]['전날비교'] < 5:
+                if y_compare_cmp[i]['전날비교'] >= 0 and y_compare_cmp[i]['전날비교'] < min2:
                     for x in range(6,11):
                         for y in range(22,32):
                             if array_screen[x][y] == 1:
@@ -496,11 +506,8 @@ while(menu):
             for y in range(22):
                 if array_screen[x][y] == 1:
                     array_screen[x][y] += 6
+        #b_yesterday_compare_data(js_file_b_yesterday, js_file_b_b_yesterday, search_region, b_y_compare_cmp, array_screen)
         draw_matrix(array_screen);print()
-        if search_region == '1':
-            run_text = RunText()
-            run_text.my_text = getdata(js_file)
-            run_text.process()
         if search_region == '0': # 0을 입력하면 메뉴로 복귀
             compare_cmp = []
             y_compare_cmp = []
@@ -510,9 +517,14 @@ while(menu):
             break
 
     while menu_choice == 3: # 경기 세부지역 확진자 수 검색
+        sum_today = 0
+        sum_yesterday = 0
+        sum_today_array = []
+        sum_yesterday_array = []
         js_file = 'koreaData_Gyeonggi'+ '_'+ a + '.js'
         js_file_yesterday = 'koreaData_Gyeonggi'+ '_'+ b + '.js'
         js_file_b_yesterday = 'koreaData_Gyeonggi'+ '_' + c + '.js'
+        js_file_b_b_yesterday = 'koreaData_Gyeonggi'+ '_' + d + '.js'
         search_region = input("지역을 입력하세요 (ex:수원): ")
         clear_array(array_screen)
         draw_matrix(array_screen);print()
@@ -523,20 +535,28 @@ while(menu):
                 if array_screen[x][y] == 1:
                     array_screen[x][y] += 6
         today_compare_data(js_file, js_file_yesterday, search_region, compare_cmp, array_screen)
+
+        for i in range(0,len(compare_cmp)):
+            sum_today += compare_cmp[i]['전날비교']
+            sum_today_array.append(compare_cmp[i]['전날비교'])
+        avg_today = sum_today/len(compare_cmp)
+        max1 = (max(sum_today_array)+avg_today) / 2
+        min1 = (min(sum_today_array)+avg_today) / 2
+
         for i in range(0,len(compare_cmp)):
             if compare_cmp[i]['지역이름'] == search_region:
                 list = [int(i) for i in str(compare_cmp[i]['전날비교'])]
-                if compare_cmp[i]['전날비교'] >= 10:
+                if compare_cmp[i]['전날비교'] >= max1:
                     for x in range(5):
                         for y in range(22,32):
                             if array_screen[x][y] == 1:
                                 array_screen[x][y] += 3
-                if compare_cmp[i]['전날비교'] >= 5 and compare_cmp[i]['전날비교'] < 10:
+                if compare_cmp[i]['전날비교'] >= min1 and compare_cmp[i]['전날비교'] < max1:
                     for x in range(5):
                         for y in range(22,32):
                             if array_screen[x][y] == 1:
                                 array_screen[x][y] += 2
-                if compare_cmp[i]['전날비교'] >= 0 and compare_cmp[i]['전날비교'] < 5:
+                if compare_cmp[i]['전날비교'] >= 0 and compare_cmp[i]['전날비교'] < min1:
                     for x in range(5):
                         for y in range(22,32):
                             if array_screen[x][y] == 1:
@@ -548,20 +568,28 @@ while(menu):
                 if array_screen[x][y] == 1:
                     array_screen[x][y] += 5
         yesterday_compare_data(js_file_yesterday, js_file_b_yesterday, search_region, y_compare_cmp, array_screen)
+
+        for i in range(0,len(y_compare_cmp)):
+            sum_yesterday += y_compare_cmp[i]['전날비교']
+            sum_yesterday_array.append(y_compare_cmp[i]['전날비교'])
+        avg_yesterday = sum_yesterday/len(y_compare_cmp)
+        max2 = (max(sum_yesterday_array)+avg_yesterday) / 2
+        min2 = (min(sum_yesterday_array)+avg_yesterday) / 2
+
         for i in range(0,len(y_compare_cmp)):
             if y_compare_cmp[i]['지역이름'] == search_region:
                 list = [int(i) for i in str(y_compare_cmp[i]['전날비교'])]
-                if y_compare_cmp[i]['전날비교'] >= 10:
+                if y_compare_cmp[i]['전날비교'] >= max2:
                     for x in range(6,11):
                         for y in range(22,32):
                             if array_screen[x][y] == 1:
                                 array_screen[x][y] += 3
-                if y_compare_cmp[i]['전날비교'] >= 5 and y_compare_cmp[i]['전날비교'] < 10:
+                if y_compare_cmp[i]['전날비교'] >= min2 and y_compare_cmp[i]['전날비교'] < max2:
                     for x in range(6,11):
                         for y in range(22,32):
                             if array_screen[x][y] == 1:
                                 array_screen[x][y] += 2
-                if y_compare_cmp[i]['전날비교'] >= 0 and y_compare_cmp[i]['전날비교'] < 5:
+                if y_compare_cmp[i]['전날비교'] >= 0 and y_compare_cmp[i]['전날비교'] < min2:
                     for x in range(6,11):
                         for y in range(22,32):
                             if array_screen[x][y] == 1:
@@ -572,11 +600,8 @@ while(menu):
             for y in range(22):
                 if array_screen[x][y] == 1:
                     array_screen[x][y] += 6
+        ##b_yesterday_compare_data(js_file_b_yesterday, js_file_b_b_yesterday, search_region, compare_cmp, array_screen)
         draw_matrix(array_screen);print()
-        if search_region == '1':
-            run_text = RunText()
-            run_text.my_text = getdata(js_file)
-            run_text.process()
         if search_region == '0': # 0을 입력하면 메뉴로 복귀
             compare_cmp = []
             y_compare_cmp = []
@@ -587,3 +612,5 @@ while(menu):
 
     if menu_choice == 4: # 메뉴 종료
         menu = 0
+
+
