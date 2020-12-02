@@ -52,7 +52,7 @@ def run():
         "https://www.gg.go.kr/contents/contents.do?ciIdx=1150&menuId=2909")
     confirmed_region = parse_data(data, updated)
     # print(confirmed_region)
-    save_dir = 'koreaData_Gyeonggi'+ a + '.js'
+    save_dir = 'koreaData_Gyeonggi_'+ a + '.js'
     crawler_name = 'crawlKoreaData_Gyeonggi.py'
     var_name = 'koreaData_Gyeonggi'
 
