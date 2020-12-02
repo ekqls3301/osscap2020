@@ -7,6 +7,7 @@ import threading
 from datetime import date, timedelta
 import datetime
 from matrix import *
+from runtext import RunText
 
 today = date.today()
 oneday = datetime.timedelta(days=1)
@@ -216,6 +217,18 @@ def clear_array(array):
         for j in range(32):
             array[i][j] = 0
 
+
+
+def getdata(js_file):
+    with open (js_file,"r",encoding="utf-8") as f:
+        json_data = json.load(f)
+        text =''
+        for i in range(0,len(json_data)-1):
+            data_name = json_data[i]['지역이름']
+            data_num = json_data[i]['확진자수']
+            text = text + data_name + " : " + str(data_num) + "  "
+        return text
+
 main_menu = 0
 menu = 1
 while(menu):
@@ -242,7 +255,11 @@ while(menu):
         draw_matrix(array_screen);print()
         search_count(js_file,search_region,array_screen)
         compare_data(js_file,js_file_yesterday,search_region,compare_cmp,array_screen)
+        run_text = RunText()
+        run_text.my_text = getdata(js_file)
+        run_text.process()
         draw_matrix(array_screen);print()
+
         if search_region == '0': # 0을 입력하면 메뉴로 복귀
             compare_cmp = []
             main_menu = 0
@@ -257,7 +274,11 @@ while(menu):
         draw_matrix(array_screen);print()
         search_count(js_file,search_region,array_screen)
         compare_data(js_file, js_file_yesterday, search_region, compare_cmp, array_screen)
+        run_text = RunText()
+        run_text.my_text = getdata(js_file)
+        run_text.process()
         draw_matrix(array_screen);print()
+
         if search_region == '0': # 0을 입력하면 메뉴로 복귀
             compare_cmp = []
             main_menu = 0
@@ -271,7 +292,11 @@ while(menu):
         draw_matrix(array_screen);print()
         search_count(js_file,search_region,array_screen)
         compare_data(js_file, js_file_yesterday, search_region, compare_cmp, array_screen)
+        run_text = RunText()
+        run_text.my_text = getdata(js_file)
+        run_text.process()
         draw_matrix(array_screen);print()
+
         #print(str(count_change(js_file,search_region)),"명 증가")
         if search_region == '0': # 0을 입력하면 메뉴로 복귀
             compare_cmp = []

@@ -20,7 +20,10 @@ def getdata(js_file):
             text = text + data_name + " : " + str(data_num) + "  "
         return text
 
-
-run_text = RunText()
-run_text.my_text =getdata('koreaData_All_'+ a +'.js')
-run_text.process()
+def run():
+    today = date.today()
+    yesterday = date.today() - timedelta(1)
+    a = str(today)
+    run_text = RunText()
+    run_text.my_text =getdata('koreaData_All_'+ a +'.js')
+    run_text.process()

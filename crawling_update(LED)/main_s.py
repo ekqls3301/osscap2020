@@ -7,16 +7,16 @@ import threading
 from datetime import date, timedelta
 import datetime
 from matrix import *
-from runtext import RunText
-
 
 today = date.today()
 oneday = datetime.timedelta(days=1)
 yesterday = today - oneday
 third = today - oneday - oneday
+four = today - oneday - oneday
 a = str(today)
 b = str(yesterday)
 c = str(third)
+d = str(four)
 
 
 
@@ -126,32 +126,31 @@ number_array = [
 ]
 
 covid_array = [
-    #########RED#########
-    [[0, 4, 4, 0],
-     [4, 0, 0, 0],
-     [4, 0, 0, 0],
-     [4, 0, 0, 0],
-     [0, 4, 4, 0]], # C
-    [[0, 4, 0, 0],
-     [4, 0, 4, 0],
-     [4, 0, 4, 0],
-     [4, 0, 4, 0],
-     [0, 4, 0, 0]], # O
-    [[4, 0, 4, 0],
-     [4, 0, 4, 0],
-     [4, 0, 4, 0],
-     [4, 0, 4, 0],
-     [0, 4, 0, 0]], # V
-    [[4, 4, 4, 0],
-     [0, 4, 0, 0],
-     [0, 4, 0, 0],
-     [0, 4, 0, 0],
-     [4, 4, 4, 0]], # I
-    [[4, 4, 0, 0],
-     [4, 0, 4, 0],
-     [4, 0, 4, 0],
-     [4, 0, 4, 0],
-     [4, 4, 0, 0]]  # D
+    [[0, 1, 1, 1, 1],
+     [1, 0, 0, 0, 0],
+     [1, 0, 0, 0, 0],
+     [1, 0, 0, 0, 0],
+     [0, 1, 1, 1, 1]], # C
+    [[0, 1, 1, 1, 0],
+     [1, 0, 0, 0, 1],
+     [1, 0, 0, 0, 1],
+     [1, 0, 0, 0, 1],
+     [0, 1, 1, 1, 0]], # O
+    [[1, 0, 0, 0, 1],
+     [1, 0, 0, 0, 1],
+     [0, 1, 0, 1, 0],
+     [0, 0, 1, 0, 0],
+     [0, 0, 1, 0, 0]], # V
+    [[0, 1, 1, 1, 0],
+     [0, 0, 1, 0, 0],
+     [0, 0, 1, 0, 0],
+     [0, 0, 1, 0, 0],
+     [0, 1, 1, 1, 0]], # I
+    [[1, 1, 1, 0, 0],
+     [1, 0, 0, 1, 0],
+     [1, 0, 0, 1, 0],
+     [1, 0, 0, 1, 0],
+     [1, 1, 1, 0, 0]] # D
 ]
 
 arrow_array = [
@@ -168,24 +167,6 @@ comma_array = [
      [0,0],
      [1,0],
      [0,0]]
-]
-
-flower = [
-    [[0, 0, 0, 0, 0, 0, 0],
-    [0, 0, 0, 7, 0, 0, 0],
-    [0, 7, 0, 7, 0, 7, 0],
-    [0, 0, 7, 3, 7, 0, 0],
-    [7, 7, 3, 3, 3, 7, 7],
-    [0, 0, 7, 3, 7, 0, 0],
-    [0, 7, 0, 7, 0, 7, 0],
-    [0, 0, 0, 7, 0, 0, 0],
-    [0, 0, 0, 2, 0, 0, 0],
-    [0, 0, 0, 2, 0, 0, 0],
-    [2, 0, 0, 2, 0, 0, 2],
-    [0, 2, 0, 2, 0, 2, 0],
-    [0, 0, 2, 2, 2, 0, 0],
-    [0, 0, 0, 2, 0, 0, 0],
-    [0, 0, 0, 2, 0, 0, 0]]
 ]
 
 LED_init()
@@ -371,11 +352,6 @@ def all_count(js_file,array):
                 for y in range(1+4*j,5+4*j):
                     array[x][y] = number_array[list[j]][x-10][y-4*j-1]
 
-def flower_print(array):
-    for x in range(1,16):
-        for y in range(23,30):
-            array[x][y] = flower[0][x-1][y-23]
-
 # 지역별 전날대비 확진자 수 증감 검색 함수
 def count_change(js_file,search_region):
     with open (js_file,"r",encoding="utf-8") as f:
@@ -389,16 +365,6 @@ def clear_array(array):
         for j in range(32):
             array[i][j] = 0
 
-def getdata(js_file):
-    with open (js_file,"r",encoding="utf-8") as f:
-        json_data = json.load(f)
-        text =''
-        for i in range(0,len(json_data)-1):
-            data_name = json_data[i]['지역이름']
-            data_num = json_data[i]['확진자수']
-            text = text + data_name + " : " + str(data_num) + "  "
-        return text
-  
 main_menu = 0
 menu = 1
 while(menu):
@@ -412,31 +378,25 @@ while(menu):
         main_UI(array_screen)
         file = 'koreaData_All' + '_' + a + '.js'
         all_count(file, array_screen)
-        flower_print(array_screen)
         draw_matrix(array_screen);print()
     compare_cmp = []
-    y_compare_cmp = []
-    b_y_compare_cmp = []
     menu_choice = int(input("Select menu: "))
 
     # while > 뒤로가기 입력전까지 menu 반복시행
     while menu_choice == 1:  # 전국 확진자 수 검색
         js_file = 'koreaData_All'+ '_'+ a +'.js'
-        while(1):
-            search_region = input("scroll 기능 실행 시 1 입력 : ");
-            if search_region == '1':
-                run_text = RunText()
-                run_text.my_text = getdata(js_file)
-                run_text.process()
-            if search_region == '0': # 0을 입력하면 메뉴로 복귀
-                main_menu = 0
-                break
+        js_file_yesterday = 'koreaData_All'+ '_'+ b +'.js'
+        if search_region == '0': # 0을 입력하면 메뉴로 복귀
+            compare_cmp = []
+            main_menu = 0
+            break
 
 
     while menu_choice == 2: # 서울 세부지역 확진자 수 검색
         js_file = 'koreaData_Seoul'+ '_' + a + '.js'
         js_file_yesterday = 'koreaData_Seoul'+ '_' + b + '.js'
         js_file_b_yesterday = 'koreaData_Seoul'+ '_' + c + '.js'
+        js_file_b_b_yesterday = 'koreaData_Seoul'+ '_' + d + '.js'
         search_region = input("지역을 입력하세요 (ex:종로구): ")
         clear_array(array_screen)
         draw_matrix(array_screen);print()
@@ -445,144 +405,50 @@ while(menu):
         for x in range(5):
             for y in range(22):
                 if array_screen[x][y] == 1:
-                    array_screen[x][y] += 6
+                    array_screen[x][y] += 4
         today_compare_data(js_file, js_file_yesterday, search_region, compare_cmp, array_screen)
-        for i in range(0,len(compare_cmp)):
-            if compare_cmp[i]['지역이름'] == search_region:
-                list = [int(i) for i in str(compare_cmp[i]['전날비교'])]
-                if compare_cmp[i]['전날비교'] >= 10:
-                    for x in range(5):
-                        for y in range(22,32):
-                            if array_screen[x][y] == 1:
-                                array_screen[x][y] += 3
-                if compare_cmp[i]['전날비교'] >= 5 and compare_cmp[i]['전날비교'] < 10:
-                    for x in range(5):
-                        for y in range(22,32):
-                            if array_screen[x][y] == 1:
-                                array_screen[x][y] += 2
-                if compare_cmp[i]['전날비교'] >= 0 and compare_cmp[i]['전날비교'] < 5:
-                    for x in range(5):
-                        for y in range(22,32):
-                            if array_screen[x][y] == 1:
-                                array_screen[x][y] += 1
         yesterday_date_print(array_screen)
         yesterday_search_count(js_file_yesterday,search_region,array_screen)
         for x in range(6,11):
             for y in range(22):
                 if array_screen[x][y] == 1:
                     array_screen[x][y] += 5
-        yesterday_compare_data(js_file_yesterday, js_file_b_yesterday, search_region, y_compare_cmp, array_screen)
-        for i in range(0,len(y_compare_cmp)):
-            if y_compare_cmp[i]['지역이름'] == search_region:
-                list = [int(i) for i in str(y_compare_cmp[i]['전날비교'])]
-                if y_compare_cmp[i]['전날비교'] >= 10:
-                    for x in range(6,11):
-                        for y in range(22,32):
-                            if array_screen[x][y] == 1:
-                                array_screen[x][y] += 3
-                if y_compare_cmp[i]['전날비교'] >= 5 and y_compare_cmp[i]['전날비교'] < 10:
-                    for x in range(6,11):
-                        for y in range(22,32):
-                            if array_screen[x][y] == 1:
-                                array_screen[x][y] += 2
-                if y_compare_cmp[i]['전날비교'] >= 0 and y_compare_cmp[i]['전날비교'] < 5:
-                    for x in range(6,11):
-                        for y in range(22,32):
-                            if array_screen[x][y] == 1:
-                                array_screen[x][y] += 1
+        yesterday_compare_data(js_file_yesterday, js_file_b_yesterday, search_region, compare_cmp, array_screen)
         b_yesterday_date_print(array_screen)
         b_yesterday_search_count(js_file_b_yesterday,search_region,array_screen)
         for x in range(11,16):
             for y in range(22):
                 if array_screen[x][y] == 1:
                     array_screen[x][y] += 6
+        b_yesterday_compare_data(js_file_b_yesterday, js_file_b_b_yesterday, search_region, compare_cmp, array_screen)
+
         draw_matrix(array_screen);print()
-        if search_region == '1':
-            run_text = RunText()
-            run_text.my_text = getdata(js_file)
-            run_text.process()
         if search_region == '0': # 0을 입력하면 메뉴로 복귀
             compare_cmp = []
-            y_compare_cmp = []
-            b_y_compare_cmp = []
             main_menu = 0
-            clear_array(array_screen)
             break
 
     while menu_choice == 3: # 경기 세부지역 확진자 수 검색
         js_file = 'koreaData_Gyeonggi'+ '_'+ a + '.js'
         js_file_yesterday = 'koreaData_Gyeonggi'+ '_'+ b + '.js'
         js_file_b_yesterday = 'koreaData_Gyeonggi'+ '_' + c + '.js'
+        js_file_b_b_yesterday = 'koreaData_Gyeonggi'+ '_' + d + '.js'
         search_region = input("지역을 입력하세요 (ex:수원): ")
         clear_array(array_screen)
         draw_matrix(array_screen);print()
         today_date_print(array_screen)
         today_search_count(js_file,search_region,array_screen)
-        for x in range(5):
-            for y in range(22):
-                if array_screen[x][y] == 1:
-                    array_screen[x][y] += 6
         today_compare_data(js_file, js_file_yesterday, search_region, compare_cmp, array_screen)
-        for i in range(0,len(compare_cmp)):
-            if compare_cmp[i]['지역이름'] == search_region:
-                list = [int(i) for i in str(compare_cmp[i]['전날비교'])]
-                if compare_cmp[i]['전날비교'] >= 10:
-                    for x in range(5):
-                        for y in range(22,32):
-                            if array_screen[x][y] == 1:
-                                array_screen[x][y] += 3
-                if compare_cmp[i]['전날비교'] >= 5 and compare_cmp[i]['전날비교'] < 10:
-                    for x in range(5):
-                        for y in range(22,32):
-                            if array_screen[x][y] == 1:
-                                array_screen[x][y] += 2
-                if compare_cmp[i]['전날비교'] >= 0 and compare_cmp[i]['전날비교'] < 5:
-                    for x in range(5):
-                        for y in range(22,32):
-                            if array_screen[x][y] == 1:
-                                array_screen[x][y] += 1
         yesterday_date_print(array_screen)
         yesterday_search_count(js_file_yesterday,search_region,array_screen)
-        for x in range(6,11):
-            for y in range(22):
-                if array_screen[x][y] == 1:
-                    array_screen[x][y] += 5
-        yesterday_compare_data(js_file_yesterday, js_file_b_yesterday, search_region, y_compare_cmp, array_screen)
-        for i in range(0,len(y_compare_cmp)):
-            if y_compare_cmp[i]['지역이름'] == search_region:
-                list = [int(i) for i in str(y_compare_cmp[i]['전날비교'])]
-                if y_compare_cmp[i]['전날비교'] >= 10:
-                    for x in range(6,11):
-                        for y in range(22,32):
-                            if array_screen[x][y] == 1:
-                                array_screen[x][y] += 3
-                if y_compare_cmp[i]['전날비교'] >= 5 and y_compare_cmp[i]['전날비교'] < 10:
-                    for x in range(6,11):
-                        for y in range(22,32):
-                            if array_screen[x][y] == 1:
-                                array_screen[x][y] += 2
-                if y_compare_cmp[i]['전날비교'] >= 0 and y_compare_cmp[i]['전날비교'] < 5:
-                    for x in range(6,11):
-                        for y in range(22,32):
-                            if array_screen[x][y] == 1:
-                                array_screen[x][y] += 1
+        yesterday_compare_data(js_file_yesterday, js_file_b_yesterday, search_region, compare_cmp, array_screen)
         b_yesterday_date_print(array_screen)
         b_yesterday_search_count(js_file_b_yesterday,search_region,array_screen)
-        for x in range(11,16):
-            for y in range(22):
-                if array_screen[x][y] == 1:
-                    array_screen[x][y] += 6
+        b_yesterday_compare_data(js_file_b_yesterday, js_file_b_b_yesterday, search_region, compare_cmp, array_screen)
         draw_matrix(array_screen);print()
-        if search_region == '1':
-            run_text = RunText()
-            run_text.my_text = getdata(js_file)
-            run_text.process()
         if search_region == '0': # 0을 입력하면 메뉴로 복귀
             compare_cmp = []
-            y_compare_cmp = []
-            b_y_compare_cmp = []
             main_menu = 0
-            clear_array(array_screen)
             break
 
     if menu_choice == 4: # 메뉴 종료

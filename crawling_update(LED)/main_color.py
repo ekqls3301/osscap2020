@@ -11,9 +11,10 @@ from matrix import *
 today = date.today()
 oneday = datetime.timedelta(days=1)
 yesterday = today - oneday
+third = today - oneday - oneday
 a = str(today)
 b = str(yesterday)
-
+c = str(third)
 
 
 def LED_init():
@@ -30,7 +31,13 @@ def draw_matrix(array):
     for x in range(16):
         for y in range(32):
             if array[x][y] == 1:
-                LMD.set_pixel(x,y,4)
+                LMD.set_pixel(x,y,4)     #blue
+            elif array[x][y] == 2:
+                LMD.set_pixel(x,y,3)     #yellow
+            elif array[x][y] == 3:
+                LMD.set_pixel(x,y,1)     #red
+            elif array[x][y] == 4:
+                LMD.set_pixel(x,y,2)     #green
             elif array[x][y] == 0:
                 LMD.set_pixel(x,y,0)
             else:
@@ -106,6 +113,221 @@ number_array = [
      [1,1,1,0],
      [0,0,1,0],
      [0,0,1,0]], #9
+    ]
+
+
+
+
+number_array_1 = [
+    [[1,1,1,0],
+     [1,0,1,0],
+     [1,0,1,0],
+     [1,0,1,0],
+     [1,1,1,0]], #0
+    [[0,1,0,0],
+     [0,1,0,0],
+     [0,1,0,0],
+     [0,1,0,0],
+     [0,1,0,0]], #1
+    [[1,1,1,0],
+     [0,0,1,0],
+     [1,1,1,0],
+     [1,0,0,0],
+     [1,1,1,0]], #2
+    [[1,1,1,0],
+     [0,0,1,0],
+     [1,1,1,0],
+     [0,0,1,0],
+     [1,1,1,0]], #3
+    [[1,0,1,0],
+     [1,0,1,0],
+     [1,1,1,0],
+     [0,0,1,0],
+     [0,0,1,0]], #4
+    [[1,1,1,0],
+     [1,0,0,0],
+     [1,1,1,0],
+     [0,0,1,0],
+     [1,1,1,0]], #5
+    [[1,1,1,0],
+     [1,0,0,0],
+     [1,1,1,0],
+     [1,0,1,0],
+     [1,1,1,0]], #6
+    [[1,1,1,0],
+     [0,0,1,0],
+     [0,1,0,0],
+     [0,1,0,0],
+     [0,1,0,0]], #7
+    [[1,1,1,0],
+     [1,0,1,0],
+     [1,1,1,0],
+     [1,0,1,0],
+     [1,1,1,0]], #8
+    [[1,1,1,0],
+     [1,0,1,0],
+     [1,1,1,0],
+     [0,0,1,0],
+     [0,0,1,0]] #9
+]
+
+number_array_2 = [   #yellow
+    [[2, 2, 2, 0],
+     [2, 0, 2, 0],
+     [2, 0, 2, 0],
+     [2, 0, 2, 0],
+     [2, 2, 2, 0]],  # 0
+    [[0, 2, 0, 0],
+     [0, 2, 0, 0],
+     [0, 2, 0, 0],
+     [0, 2, 0, 0],
+     [0, 2, 0, 0]],  # 1
+    [[2, 2, 2, 0],
+     [0, 0, 2, 0],
+     [2, 2, 2, 0],
+     [2, 0, 0, 0],
+     [2, 2, 2, 0]],  # 2
+    [[2, 2, 2, 0],
+     [0, 0, 2, 0],
+     [2, 2, 2, 0],
+     [0, 0, 2, 0],
+     [2, 2, 2, 0]],  # 3
+    [[2, 0, 2, 0],
+     [2, 0, 2, 0],
+     [2, 2, 2, 0],
+     [0, 0, 2, 0],
+     [0, 0, 2, 0]],  # 4
+    [[2, 2, 2, 0],
+     [2, 0, 0, 0],
+     [2, 2, 2, 0],
+     [0, 0, 2, 0],
+     [2, 2, 2, 0]],  # 5
+    [[2, 2, 2, 0],
+     [2, 0, 0, 0],
+     [2, 2, 2, 0],
+     [2, 0, 2, 0],
+     [2, 2, 2, 0]],  # 6
+    [[2, 2, 2, 0],
+     [0, 0, 2, 0],
+     [0, 2, 0, 0],
+     [0, 2, 0, 0],
+     [0, 2, 0, 0]],  # 7
+    [[2, 2, 2, 0],
+     [2, 0, 2, 0],
+     [2, 2, 2, 0],
+     [2, 0, 2, 0],
+     [2, 2, 2, 0]],  # 8
+    [[2, 2, 2, 0],
+     [2, 0, 2, 0],
+     [2, 2, 2, 0],
+     [0, 0, 2, 0],
+     [0, 0, 2, 0]]  # 9
+]
+
+number_array_3 = [   #red
+    [[3, 3, 3, 0],
+     [3, 0, 3, 0],
+     [3, 0, 3, 0],
+     [3, 0, 3, 0],
+     [3, 3, 3, 0]],  # 0
+    [[0, 3, 0, 0],
+     [0, 3, 0, 0],
+     [0, 3, 0, 0],
+     [0, 3, 0, 0],
+     [0, 3, 0, 0]],  # 1
+    [[3, 3, 3, 0],
+     [0, 0, 3, 0],
+     [3, 3, 3, 0],
+     [3, 0, 0, 0],
+     [3, 3, 3, 0]],  # 2
+    [[3, 3, 3, 0],
+     [0, 0, 3, 0],
+     [3, 3, 3, 0],
+     [0, 0, 3, 0],
+     [3, 3, 3, 0]],  # 3
+    [[3, 0, 3, 0],
+     [3, 0, 3, 0],
+     [3, 3, 3, 0],
+     [0, 0, 3, 0],
+     [0, 0, 3, 0]],  # 4
+    [[3, 3, 3, 0],
+     [3, 0, 0, 0],
+     [3, 3, 3, 0],
+     [0, 0, 3, 0],
+     [3, 3, 3, 0]],  # 5
+    [[3, 3, 3, 0],
+     [3, 0, 0, 0],
+     [3, 3, 3, 0],
+     [3, 0, 3, 0],
+     [3, 3, 3, 0]],  # 6
+    [[3, 3, 3, 0],
+     [0, 0, 3, 0],
+     [0, 3, 0, 0],
+     [0, 3, 0, 0],
+     [0, 3, 0, 0]],  # 7
+    [[3, 3, 3, 0],
+     [3, 0, 3, 0],
+     [3, 3, 3, 0],
+     [3, 0, 3, 0],
+     [3, 3, 3, 0]],  # 8
+    [[3, 3, 3, 0],
+     [3, 0, 3, 0],
+     [3, 3, 3, 0],
+     [0, 0, 3, 0],
+     [0, 0, 3, 0]]
+]
+
+number_array_4 = [    #green
+    [[4, 4, 4, 0],
+     [4, 0, 4, 0],
+     [4, 0, 4, 0],
+     [4, 0, 4, 0],
+     [4, 4, 4, 0]],  # 0
+    [[0, 4, 0, 0],
+     [0, 4, 0, 0],
+     [0, 4, 0, 0],
+     [0, 4, 0, 0],
+     [0, 4, 0, 0]],  # 1
+    [[4, 4, 4, 0],
+     [0, 0, 4, 0],
+     [4, 4, 4, 0],
+     [4, 0, 0, 0],
+     [4, 4, 4, 0]],  # 2
+    [[4, 4, 4, 0],
+     [0, 0, 4, 0],
+     [4, 4, 4, 0],
+     [0, 0, 4, 0],
+     [4, 4, 4, 0]],  # 3
+    [[4, 0, 4, 0],
+     [4, 0, 4, 0],
+     [4, 4, 4, 0],
+     [0, 0, 4, 0],
+     [0, 0, 4, 0]],  # 4
+    [[4, 4, 4, 0],
+     [4, 0, 0, 0],
+     [4, 4, 4, 0],
+     [0, 0, 4, 0],
+     [4, 4, 4, 0]],  # 5
+    [[4, 4, 4, 0],
+     [4, 0, 0, 0],
+     [4, 4, 4, 0],
+     [4, 0, 4, 0],
+     [4, 4, 4, 0]],  # 6
+    [[4, 4, 4, 0],
+     [0, 0, 4, 0],
+     [0, 4, 0, 0],
+     [0, 4, 0, 0],
+     [0, 4, 0, 0]],  # 7
+    [[4, 4, 4, 0],
+     [4, 0, 4, 0],
+     [4, 4, 4, 0],
+     [4, 0, 4, 0],
+     [4, 4, 4, 0]],  # 8
+    [[4, 4, 4, 0],
+     [4, 0, 4, 0],
+     [4, 4, 4, 0],
+     [0, 0, 4, 0],
+     [0, 0, 4, 0]]
 ]
 
 covid_array = [
@@ -136,6 +358,8 @@ covid_array = [
      [1, 1, 1, 0, 0]] # D
 ]
 
+
+
 arrow_array = [
     [[0,1,0],
      [1,1,1],
@@ -164,14 +388,36 @@ def compare_data(js_file1, js_file2, search_region ,confirmed_cmp, array):
                  })
             for i in range(0,len(confirmed_cmp)):
                 if (confirmed_cmp[i]['지역이름']) == search_region:
-                    list = [int(i) for i in str(confirmed_cmp[i]['전날비교'])]
-                    for j in range(0,len(list)):
+                    if confirmed_cmp[i]['전날비교'] > 5:
+                        list_1 = [int(i) for i in str(confirmed_cmp[i]['전날비교'])]
+                        for j in range(0,len(list_1)):
+                            for x in range(5):
+                                for y in range(19+4*j, 23+4*j):
+                                    array[x][y] = number_array_3[list_1[j]][x][y-19-4*j]
+                                    number_array_3[list_1[j]][x][y - 19 - 4 * j] == 3
+                            for x in range(5):
+                                for y in range(19 + 4 * len(list_1), 19 + 4 * len(list_1) + 3):  # 31~34
+                                    array[x][y] = arrow_array[0][x][y - 19 - 4 * len(list_1)]
+                    elif confirmed_cmp[i]['전날비교'] > 2  and confirmed_cmp[i]['전날비교'] <= 5:
+                        list_2 = [int(i) for i in str(confirmed_cmp[i]['전날비교'])]
+                        for j in range(0, len(list_2)):
+                            for x in range(5):
+                                for y in range(19 + 4 * j, 23 + 4 * j):
+                                    array[x][y] = number_array_2[list_2[j]][x][y - 19 - 4 * j]
+                                    number_array_2[list_2[j]][x][y - 19 - 4 * j] == 2
+                            for x in range(5):
+                                for y in range(19 + 4 * len(list_2), 19 + 4 * len(list_2) + 3):  # 31~34
+                                    array[x][y] = arrow_array[0][x][y - 19 - 4 * len(list_2)]
+                    elif confirmed_cmp[i]['전날비교'] >= 0 and confirmed_cmp[i]['전날비교'] <= 2:
+                        list_3 = [int(i) for i in str(confirmed_cmp[i]['전날비교'])]
+                        for j in range(0, len(list_3)):
+                            for x in range(5):
+                                for y in range(19 + 4 * j, 23 + 4 * j):
+                                    array[x][y] = number_array_4[list_3[j]][x][y - 19 - 4 * j]
+                                    number_array_4[list_3[j]][x][y - 19 - 4 * j] == 4
                         for x in range(5):
-                            for y in range(19+4*j, 23+4*j):
-                                array[x][y] = number_array[list[j]][x][y-19-4*j]
-                    for x in range(5):
-                        for y in range(19+4*len(list),19+4*len(list)+3): #31~34
-                            array[x][y] = arrow_array[0][x][y-19-4*len(list)]
+                            for y in range(19+4*len(list_3),19+4*len(list_3)+3): #31~34
+                                array[x][y] = arrow_array[0][x][y-19-4*len(list_3)]
             return confirmed_cmp
 
 # 지역별 확진자 수 검색 함수 (LED구현)
@@ -236,7 +482,7 @@ while(menu):
     # while > 뒤로가기 입력전까지 menu 반복시행
     while menu_choice == 1:  # 전국 확진자 수 검색
         js_file = 'koreaData_All'+ '_'+ a +'.js'
-        js_file_yesterday = 'koreaData_All'+ '_'+ b +'.js'
+        js_file_yesterday = 'koreaData_All'+ '_'+ c +'.js'
         search_region = input("지역을 입력하세요 (ex:서울): ")
         clear_array(array_screen)
         draw_matrix(array_screen);print()
@@ -251,7 +497,7 @@ while(menu):
 
     while menu_choice == 2: # 서울 세부지역 확진자 수 검색
         js_file = 'koreaData_Seoul'+ '_' + a + '.js'
-        js_file_yesterday = 'koreaData_Seoul'+ '_' + b + '.js'
+        js_file_yesterday = 'koreaData_Seoul'+ '_' + c + '.js'
         search_region = input("지역을 입력하세요 (ex:종로구): ")
         clear_array(array_screen)
         draw_matrix(array_screen);print()
@@ -265,7 +511,7 @@ while(menu):
 
     while menu_choice == 3: # 경기 세부지역 확진자 수 검색
         js_file = 'koreaData_Gyeonggi'+ '_'+ a + '.js'
-        js_file_yesterday = 'koreaData_Gyeonggi'+ '_'+ b + '.js'
+        js_file_yesterday = 'koreaData_Gyeonggi'+ '_'+ c + '.js'
         search_region = input("지역을 입력하세요 (ex:수원): ")
         clear_array(array_screen)
         draw_matrix(array_screen);print()
