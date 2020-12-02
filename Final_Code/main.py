@@ -424,7 +424,7 @@ while(menu):
         js_file = 'koreaData_All'+ '_'+ a +'.js'
         while(1):
             search_region = input("scroll 기능 실행 시 1 입력 : ");
-            if search_region = '1';
+            if search_region = '1':
                 run_text = RunText()
                 run_text.my_text = getdata(js_file)
                 run_text.process()
