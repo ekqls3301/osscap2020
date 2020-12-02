@@ -7,6 +7,7 @@ import threading
 from datetime import date, timedelta
 import datetime
 from matrix import *
+from runtext import RunText
 
 today = date.today()
 oneday = datetime.timedelta(days=1)
