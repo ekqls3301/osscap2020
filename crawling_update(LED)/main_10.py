@@ -12,11 +12,9 @@ today = date.today()
 oneday = datetime.timedelta(days=1)
 yesterday = today - oneday
 third = today - oneday - oneday
-four = today - oneday - oneday
 a = str(today)
 b = str(yesterday)
 c = str(third)
-d = str(four)
 
 
 
@@ -181,7 +179,7 @@ flower = [
     [0, 0, 0, 7, 0, 0, 0],
     [0, 0, 0, 2, 0, 0, 0],
     [0, 0, 0, 2, 0, 0, 0],
-    [0, 0, 0, 2, 0, 0, 0],
+    [2, 0, 0, 2, 0, 0, 2],
     [0, 2, 0, 2, 0, 2, 0],
     [0, 0, 2, 2, 2, 0, 0],
     [0, 0, 0, 2, 0, 0, 0],
@@ -412,21 +410,21 @@ while(menu):
     # while > 뒤로가기 입력전까지 menu 반복시행
     while menu_choice == 1:  # 전국 확진자 수 검색
         js_file = 'koreaData_All'+ '_'+ a +'.js'
-        js_file_yesterday = 'koreaData_All'+ '_'+ b +'.js'
-        if search_region == '0': # 0을 입력하면 메뉴로 복귀
-            compare_cmp = []
-            y_compare_cmp = []
-            b_y_compare_cmp = []
-            main_menu = 0
-            clear_array(array_screen)
-            break
+        while(1):
+            search_region = input("scroll 기능 실행 1, 중단 시 0 입력 : ");
+            if search_region == '1':
+                run_text = RunText()
+                run_text.my_text = getdata(js_file)
+                run_text.process()
+                if search_region == '0': # 0을 입력하면 메뉴로 복귀
+                    main_menu = 0
+                    break
 
 
     while menu_choice == 2: # 서울 세부지역 확진자 수 검색
         js_file = 'koreaData_Seoul'+ '_' + a + '.js'
         js_file_yesterday = 'koreaData_Seoul'+ '_' + b + '.js'
         js_file_b_yesterday = 'koreaData_Seoul'+ '_' + c + '.js'
-        js_file_b_b_yesterday = 'koreaData_Seoul'+ '_' + d + '.js'
         search_region = input("지역을 입력하세요 (ex:종로구): ")
         clear_array(array_screen)
         draw_matrix(array_screen);print()
@@ -486,8 +484,11 @@ while(menu):
             for y in range(22):
                 if array_screen[x][y] == 1:
                     array_screen[x][y] += 6
-        #b_yesterday_compare_data(js_file_b_yesterday, js_file_b_b_yesterday, search_region, b_y_compare_cmp, array_screen)
         draw_matrix(array_screen);print()
+        if search_region == '1':
+            run_text = RunText()
+            run_text.my_text = getdata(js_file)
+            run_text.process()
         if search_region == '0': # 0을 입력하면 메뉴로 복귀
             compare_cmp = []
             y_compare_cmp = []
@@ -560,8 +561,11 @@ while(menu):
             for y in range(22):
                 if array_screen[x][y] == 1:
                     array_screen[x][y] += 6
-        ##b_yesterday_compare_data(js_file_b_yesterday, js_file_b_b_yesterday, search_region, compare_cmp, array_screen)
         draw_matrix(array_screen);print()
+        if search_region == '1':
+            run_text = RunText()
+            run_text.my_text = getdata(js_file)
+            run_text.process()
         if search_region == '0': # 0을 입력하면 메뉴로 복귀
             compare_cmp = []
             y_compare_cmp = []
