@@ -16,7 +16,7 @@ class RunText(SampleBase):
         font.LoadFont("../fonts/NanumGothic-Regular.bdf")
         textColor = graphics.Color(255, 255, 0)
         pos = offscreen_canvas.width
-        vpos = font.baseline + 16
+        vpos = font.baseline + 10
         my_text = self.my_text
 
         while True:
