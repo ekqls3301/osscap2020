@@ -9,6 +9,7 @@ import datetime
 from matrix import *
 from runtext import RunText
 
+
 today = date.today()
 oneday = datetime.timedelta(days=1)
 yesterday = today - oneday
@@ -422,14 +423,14 @@ while(menu):
     while menu_choice == 1:  # 전국 확진자 수 검색
         js_file = 'koreaData_All'+ '_'+ a +'.js'
         while(1):
-            search_region = input("scroll 기능 실행 1, 중단 시 0 입력 : ");
+            search_region = input("scroll 기능 실행 시 1 입력 : ");
             if search_region == '1':
                 run_text = RunText()
                 run_text.my_text = getdata(js_file)
                 run_text.process()
-                if search_region == '0': # 0을 입력하면 메뉴로 복귀
-                    main_menu = 0
-                    break
+            if search_region == '0': # 0을 입력하면 메뉴로 복귀
+                main_menu = 0
+                break
 
 
     while menu_choice == 2: # 서울 세부지역 확진자 수 검색
