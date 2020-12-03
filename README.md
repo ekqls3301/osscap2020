@@ -57,7 +57,7 @@ $ python3 crawlKoreaData_Seoul.py
 $ python3 crawlKoreaData_Gyeonggi.py
 ```
 
-3. Final_Code에 이틀 전, 어제, 오늘의 날짜가 표시된 crawlKoreaData_All_날짜.js, crawlKoreaData_Seoul_날짜.js, crawlKoreaData_Gyeonggi_날짜.js 파일이 있는지 확인한다. (3일치 파일이 없는 경우 main.py를 실행할 수 없다.)
+3. Final_Code에 이틀 전, 어제, 오늘의 날짜가 표시된 crawlKoreaData_All_날짜.js, crawlKoreaData_Seoul_날짜.js, crawlKoreaData_Gyeonggi_날짜.js 파일이 있는지 확인한다. (3일간의 파일이 없는 경우 시연영상과 같이 3일간의 데이터와 증감이 표시되지 않는다. 따라서 main.py를 시연영상과 같이 실행시키고 싶다면 Final_Code안에 있는 다른 날짜의 js파일 1일전과 2일전 날짜로 파일명을 변경하여 실행하면 된다.)
 ``` 
 $ ls
 ```
