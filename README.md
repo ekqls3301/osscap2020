@@ -92,3 +92,8 @@ $ sudo python3 ./main.py --led-no-hardware-pulse LED_NO_HARDWARE_PULSE
   
 - 메뉴 4를 실행할 경우
   - main.py가 종료된다.
+  
+  **시연영상링크**
+  https://www.youtube.com/watch?v=aDB4RAMDmjg&feature=youtu.be
+  
+  
